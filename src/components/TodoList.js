@@ -15,9 +15,20 @@ const TodoList = props => {
     setTodoList(state => state.filter(todo => todo.id !== id))
   }
 
+  const toggleCompletion = (id) => {
+    setTodoList(state => state.map(todo => todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo))
+  }
+
   return (
     <ul className="todo-list">
-      {todoList.map(({ id, label }) => (<Todo key={id} label={label} removeTodo={() => removeTodo(id)} />))}
+      {todoList.map(({ id, label, isComplete }) => (
+        <Todo key={id}
+          id={id}
+          label={label}
+          isComplete={isComplete}
+          removeTodo={removeTodo}
+          toggleCompletion={toggleCompletion} />
+      ))}
     </ul>
   )
 }
