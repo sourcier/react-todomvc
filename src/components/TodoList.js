@@ -21,6 +21,10 @@ const TodoList = () => {
     setTodoList(state => state.map(todo => todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo))
   }
 
+  const updateTodo = ({ id, label }) => {
+    setTodoList(state => state.map(todo => todo.id === id ? { ...todo, label } : todo))
+  }
+
   return (
     <>
       <section className="main">
@@ -31,7 +35,8 @@ const TodoList = () => {
               label={label}
               isComplete={isComplete}
               removeTodo={removeTodo}
-              toggleCompletion={toggleCompletion} />
+              toggleCompletion={toggleCompletion}
+              updateTodo={updateTodo} />
           ))}
         </ul>
       </section>

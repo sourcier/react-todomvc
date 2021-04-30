@@ -23,9 +23,9 @@ const InputForm = props => {
   const handleChange = event => setValue(event.target.value)
   const handleSumit = event => {
     event.preventDefault()
+    event.stopPropagation()
     addTodo(value)
     setValue('')
-
   }
 
   return (
