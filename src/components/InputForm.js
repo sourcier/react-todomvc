@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 const InputForm = props => {
-  const [value, setValue] = useState(null)
+  const [value, setValue] = useState('')
 
   const handleChange = event => setValue(event.target.value)
   const handleSumit = event => {
@@ -12,7 +12,7 @@ const InputForm = props => {
 
   return (
     <form onSubmit={handleSumit}>
-      <input class="new-todo" placeholder="What needs to be done?" autofocus value={value} onChange={handleChange} />
+      <input className="new-todo" placeholder="What needs to be done?" autoFocus value={value} onChange={handleChange} />
     </form>
   )
 }

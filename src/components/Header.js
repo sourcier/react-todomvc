@@ -3,7 +3,7 @@ import InputForm from './InputForm'
 
 const Header = props => {
   return (
-    <header class="header">
+    <header className="header">
       <h1>todos</h1>
       <InputForm />
     </header>

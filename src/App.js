@@ -1,13 +1,19 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Home from './Home';
+import {
+  RecoilRoot,
+} from 'recoil'
 import 'todomvc-common/base.css'
 import 'todomvc-app-css/index.css'
 
+import Home from './Home';
+
 const App = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-  </Switch>
+  <RecoilRoot>
+    <Switch>
+      <Route exact path="/" component={Home} />
+    </Switch>
+  </RecoilRoot>
 );
 
 export default App;
