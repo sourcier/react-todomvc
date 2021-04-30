@@ -1,18 +1,24 @@
 import React from 'react'
 import {
+  useRecoilState,
   useRecoilValue,
-  useSetRecoilState,
-  useRecoilState
+  useSetRecoilState
 } from 'recoil'
 import classnames from 'classnames'
 
-import { todoListFilterState } from '../libs/recoil/atoms/todoList'
+import { todoListState, todoListStatsState, todoListFilterState } from '../libs/recoil/atoms/todoList'
 
-const TodoListFooter = ({ totalUncompleted }) => {
+const TodoListFooter = () => {
+  const setTodoList = useSetRecoilState(todoListState)
   const [filter, setFilter] = useRecoilState(todoListFilterState);
+  const { totalUncompleted, totalCompleted } = useRecoilValue(todoListStatsState)
 
   const updateFilter = (value) => {
     setFilter(value);
+  }
+
+  const clearCompletedTodos = () => {
+    setTodoList(state => state.filter(({ isComplete }) => !isComplete))
   }
 
   return (
@@ -41,6 +47,7 @@ const TodoListFooter = ({ totalUncompleted }) => {
           </a>
         </li>
       </ul>
+      {totalCompleted > 0 && <button className="clear-completed" onClick={() => clearCompletedTodos()}>Clear completed</button>}
     </footer>
   )
 }

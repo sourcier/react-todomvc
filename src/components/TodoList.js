@@ -8,13 +8,10 @@ import { todoListState, filteredTodoListState, todoListStatsState } from '../lib
 import Todo from './Todo';
 import TodoListFooter from './TodoListFooter';
 
-const TodoList = props => {
+const TodoList = () => {
   const todoList = useRecoilValue(filteredTodoListState)
   const setTodoList = useSetRecoilState(todoListState)
-  const {
-    total,
-    totalUncompleted,
-  } = useRecoilValue(todoListStatsState)
+  const { total } = useRecoilValue(todoListStatsState)
 
   const removeTodo = (id) => {
     setTodoList(state => state.filter(todo => todo.id !== id))
@@ -38,7 +35,7 @@ const TodoList = props => {
           ))}
         </ul>
       </section>
-      {total > 0 && <TodoListFooter totalUncompleted={totalUncompleted} />}
+      {total > 0 && <TodoListFooter />}
     </>
   )
 }
