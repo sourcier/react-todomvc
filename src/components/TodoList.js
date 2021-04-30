@@ -4,12 +4,17 @@ import {
   useSetRecoilState
 } from 'recoil'
 
-import todoListState from '../libs/recoil/atoms/todoList'
+import { todoListState, todoListStatsState } from '../libs/recoil/atoms/todoList'
 import Todo from './Todo';
+import TodoListFooter from './TodoListFooter';
 
 const TodoList = props => {
   const todoList = useRecoilValue(todoListState);
   const setTodoList = useSetRecoilState(todoListState);
+  const {
+    total,
+    totalUncompleted,
+  } = useRecoilValue(todoListStatsState)
 
   const removeTodo = (id) => {
     setTodoList(state => state.filter(todo => todo.id !== id))
@@ -20,16 +25,21 @@ const TodoList = props => {
   }
 
   return (
-    <ul className="todo-list">
-      {todoList.map(({ id, label, isComplete }) => (
-        <Todo key={id}
-          id={id}
-          label={label}
-          isComplete={isComplete}
-          removeTodo={removeTodo}
-          toggleCompletion={toggleCompletion} />
-      ))}
-    </ul>
+    <>
+      <section className="main">
+        <ul className="todo-list">
+          {todoList.map(({ id, label, isComplete }) => (
+            <Todo key={id}
+              id={id}
+              label={label}
+              isComplete={isComplete}
+              removeTodo={removeTodo}
+              toggleCompletion={toggleCompletion} />
+          ))}
+        </ul>
+      </section>
+      {total > 0 && <TodoListFooter totalUncompleted={totalUncompleted} />}
+    </>
   )
 }
 

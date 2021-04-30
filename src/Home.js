@@ -10,9 +10,7 @@ class Home extends React.Component {
       <>
         <section className="todoapp">
           <Header />
-          <section className="main">
-            <TodoList />
-          </section>
+          <TodoList />
         </section>
         <Footer />
       </>
