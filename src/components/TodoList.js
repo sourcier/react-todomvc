@@ -4,13 +4,13 @@ import {
   useSetRecoilState
 } from 'recoil'
 
-import { todoListState, todoListStatsState } from '../libs/recoil/atoms/todoList'
+import { todoListState, filteredTodoListState, todoListStatsState } from '../libs/recoil/atoms/todoList'
 import Todo from './Todo';
 import TodoListFooter from './TodoListFooter';
 
 const TodoList = props => {
-  const todoList = useRecoilValue(todoListState);
-  const setTodoList = useSetRecoilState(todoListState);
+  const todoList = useRecoilValue(filteredTodoListState)
+  const setTodoList = useSetRecoilState(todoListState)
   const {
     total,
     totalUncompleted,
