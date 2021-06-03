@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   useRecoilState,
   useRecoilValue,
@@ -7,18 +8,22 @@ import {
 import classnames from 'classnames'
 
 import { todoListState, todoListStatsState, todoListFilterState } from '../libs/recoil/atoms/todoList'
+import { setTodoFilter, clearCompletedTodos } from '../store/slices/todosSlice'
 
 const TodoListFooter = () => {
-  const setTodoList = useSetRecoilState(todoListState)
-  const [filter, setFilter] = useRecoilState(todoListFilterState);
-  const { totalUncompleted, totalCompleted } = useRecoilValue(todoListStatsState)
+  const dispatch = useDispatch()
+  const filter = useSelector(state => state.todos.filter)
+  const { totalUncompleted, totalCompleted } = useSelector(state => {
+    const { items } = state.todos
+
+    return {
+      totalCompleted: items.filter(({ isComplete }) => isComplete).length,
+      totalUncompleted: items.filter(({ isComplete }) => !isComplete).length,
+    }
+  })
 
   const updateFilter = (value) => {
-    setFilter(value);
-  }
-
-  const clearCompletedTodos = () => {
-    setTodoList(state => state.filter(({ isComplete }) => !isComplete))
+    dispatch(setTodoFilter(value))
   }
 
   return (
@@ -47,7 +52,7 @@ const TodoListFooter = () => {
           </a>
         </li>
       </ul>
-      {totalCompleted > 0 && <button className="clear-completed" onClick={() => clearCompletedTodos()}>Clear completed</button>}
+      {totalCompleted > 0 && <button className="clear-completed" onClick={() => dispatch(clearCompletedTodos())}>Clear completed</button>}
     </footer>
   )
 }

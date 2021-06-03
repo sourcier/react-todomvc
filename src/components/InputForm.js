@@ -1,30 +1,18 @@
 import React from 'react'
 import { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux'
 
-import todoListState from '../libs/recoil/atoms/todoList'
+import { addTodo } from '../store/slices/todosSlice'
 
-const InputForm = props => {
+const InputForm = () => {
   const [value, setValue] = useState('')
-  const setTodoList = useSetRecoilState(todoListState);
-
-  const addTodo = (value) => {
-    setTodoList(state => [
-      ...state,
-      {
-        id: uuidv4(),
-        label: value,
-        isComplete: false
-      }
-    ])
-  }
+  const dispatch = useDispatch()
 
   const handleChange = event => setValue(event.target.value)
   const handleSumit = event => {
     event.preventDefault()
     event.stopPropagation()
-    addTodo(value)
+    dispatch(addTodo(value))
     setValue('')
   }
 

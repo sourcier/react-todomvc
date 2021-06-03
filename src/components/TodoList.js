@@ -1,29 +1,25 @@
 import React from 'react'
-import {
-  useRecoilValue,
-  useSetRecoilState
-} from 'recoil'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { todoListState, filteredTodoListState, todoListStatsState } from '../libs/recoil/atoms/todoList'
 import Todo from './Todo';
 import TodoListFooter from './TodoListFooter';
+import { removeTodo, updateTodo, toggleTodoCompletion } from '../store/slices/todosSlice'
 
 const TodoList = () => {
-  const todoList = useRecoilValue(filteredTodoListState)
-  const setTodoList = useSetRecoilState(todoListState)
-  const { total } = useRecoilValue(todoListStatsState)
+  const dispatch = useDispatch()
+  const total = useSelector(state => state.todos.items.length)
+  const todoList = useSelector(state => {
+    const { filter, items } = state.todos
 
-  const removeTodo = (id) => {
-    setTodoList(state => state.filter(todo => todo.id !== id))
-  }
-
-  const toggleCompletion = (id) => {
-    setTodoList(state => state.map(todo => todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo))
-  }
-
-  const updateTodo = ({ id, label }) => {
-    setTodoList(state => state.map(todo => todo.id === id ? { ...todo, label } : todo))
-  }
+    switch (filter) {
+      case 'Completed':
+        return items.filter(({ isComplete }) => isComplete)
+      case 'Active':
+        return items.filter(({ isComplete }) => !isComplete)
+      default:
+        return items
+    }
+  })
 
   return (
     <>
@@ -34,9 +30,9 @@ const TodoList = () => {
               id={id}
               label={label}
               isComplete={isComplete}
-              removeTodo={removeTodo}
-              toggleCompletion={toggleCompletion}
-              updateTodo={updateTodo} />
+              removeTodo={(id) => dispatch(removeTodo(id))}
+              toggleCompletion={(id) => dispatch(toggleTodoCompletion(id))}
+              updateTodo={(todo) => dispatch(updateTodo(todo))} />
           ))}
         </ul>
       </section>
