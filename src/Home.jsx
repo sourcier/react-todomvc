@@ -5,13 +5,13 @@ import Footer from "./components/Footer";
 import TodoList from "./components/TodoList";
 
 const Home = () => (
-      <>
-        <section className="todoapp">
-          <Header />
-          <TodoList />
-        </section>
-        <Footer />
-      </>
+  <>
+    <section className="todoapp">
+      <Header />
+      <TodoList />
+    </section>
+    <Footer />
+  </>
 );
 
 export default Home;
